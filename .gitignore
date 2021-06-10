@@ -1,0 +1,15 @@
+"data"
+data
+deit_small_distilled_patch16_224-649709d9.pth
+deit_small_patch16_224-cd65a155.pth
+pit_s_distill_819.pth
+model.pth
+S24_224.pth
+lvvit_s-224-83.3.pth
+hm
+visual_loop_closure_detection.zip
+models
+datasets
+precomputed
+results
+lvvit_s-224-83.3.pth
