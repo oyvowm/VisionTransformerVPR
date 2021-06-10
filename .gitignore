@@ -8,7 +8,4 @@ S24_224.pth
 lvvit_s-224-83.3.pth
 hm
 visual_loop_closure_detection.zip
-models
-datasets
-results
-precomputed
+

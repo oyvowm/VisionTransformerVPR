@@ -1,0 +1,2 @@
+dataset,model name,auc,encoding time,matching time
+GardensPointWalking,triplet_pit.pth,0.6397215569035679,0.012435436248779297,2.5001823902130145e-05
