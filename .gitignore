@@ -10,6 +10,5 @@ hm
 visual_loop_closure_detection.zip
 models
 datasets
-precomputed
 results
 lvvit_s-224-83.3.pth
