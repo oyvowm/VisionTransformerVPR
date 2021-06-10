@@ -123,7 +123,7 @@ def train_triplet(model, train_dataset, optimizer, scheduler, epoch, device, cri
     if subsets_per_epoch == None or subsets_per_epoch > train_dataset.nCacheSubset:
         subsets_per_epoch = train_dataset.nCacheSubset
         initial_subset = 0
-    else: # starting from a random subset, shouldnt really be necessary
+    else: # starting from a random subset, shouldnt be necessary, but done for good measure.
         initial_subset = np.random.randint(train_dataset.nCacheSubset-subsets_per_epoch)
         train_dataset.current_subset = initial_subset
     print(f'Training for {subsets_per_epoch} subsets out of {train_dataset.nCacheSubset} in total')
@@ -135,7 +135,7 @@ def train_triplet(model, train_dataset, optimizer, scheduler, epoch, device, cri
         model.train()
         # create data loader
         # given the random sampling of .new_epoch() shuffling the dataloader shouldnt be necessary.
-        trainDataloader = data.DataLoader(train_dataset, batch_size=8, shuffle=False, # prøv ut true 
+        trainDataloader = data.DataLoader(train_dataset, batch_size=8, shuffle=False,  
                                           num_workers=4, pin_memory=True, drop_last=True, collate_fn=collate_tuples)
         
         lrs.append(scheduler.get_last_lr()[0])
@@ -157,8 +157,9 @@ def train_triplet(model, train_dataset, optimizer, scheduler, epoch, device, cri
                         output_cls[:, imi], output_dist[:, imi] = model(input[q][imi].unsqueeze(0).cuda()) #.squeeze()
                     else:
                         output_cls[:, imi] = model(input[q][imi].unsqueeze(0).cuda()).squeeze()
-                        
-                # reducing memory consumption:
+                
+                # memory reduction method taken from: https://github.com/filipradenovic/cnnimageretrieval-pytorch/blob/master/cirtorch/examples/train.py
+
                 # compute loss for this query tuple only
                 # then, do backward pass for one tuple only
                 # each backward pass gradients will be accumulated
@@ -188,7 +189,7 @@ def train_triplet(model, train_dataset, optimizer, scheduler, epoch, device, cri
         if train_dataset.current_subset % 5 == 0:
             #print('------------')
             print('\n',f'loss: {training_loss.avg}')
-        #scheduler.step(epoch + train_dataset.current_subset / subsets_per_epoch)
+        #scheduler.step(epoch + train_dataset.current_subset / subsets_per_epoch) # if using CosineAnnealing scheduler
 
     # finalizing epoch
     scheduler.step()
